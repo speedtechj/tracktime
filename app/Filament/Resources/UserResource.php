@@ -36,6 +36,7 @@ class UserResource extends Resource
                     ->password()
                     ->revealable()
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('userip')
                     ->label('User IP')
