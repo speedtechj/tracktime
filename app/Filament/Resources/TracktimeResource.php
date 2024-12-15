@@ -76,7 +76,7 @@ class TracktimeResource extends Resource
                     // ->default('On Going'),
                 Tables\Columns\TextColumn::make('workdate')
                 ->label('Work Date')
-                    ->dateTime()
+                    ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('totalhours')
                     ->label('Total Hours')
