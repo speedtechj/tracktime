@@ -28,7 +28,6 @@ class AppuserPanelProvider extends PanelProvider
             ->id('appuser')
             ->path('/')
             ->login()
-            ->registration()
             ->sidebarCollapsibleOnDesktop()
             ->brandName('Tracking Working Hours')
             ->colors([

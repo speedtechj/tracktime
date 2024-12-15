@@ -123,10 +123,10 @@ class TracktimeResource extends Resource
                     ->action(function (array $data): void {
                         // dd(Carbon::now()->timezone('Asia/Manila')->format('h:i:s a'));
                         $timezone = TimeZone::where('user_id', Auth::user()->id)->first();
-                        
+                        // dd(Carbon::now()->tz($timezone->time_zone));
                         Tracktime::create([
                             'user_id' => Auth::user()->id,
-                            'clockin' => Carbon::now()->tz($timezone->time_zone)->format('H:i:s'),
+                            'clockin' => Carbon::now()->tz($timezone->time_zone),
                             'workdate' => Carbon::now()->tz($timezone->time_zone)->format('Y-m-d'),
                             'note' => $data['note'],
                             'imagecapture' => $data['imagecapture'],
@@ -146,18 +146,23 @@ class TracktimeResource extends Resource
                     ->form([
                     ])
                     ->action(function (array $data): void {
-                        $getcurrent_record = Tracktime::where('user_id', Auth::user()->id)->where('is_active', 1)->first();
                         $timezone = TimeZone::where('user_id', Auth::user()->id)->first();
+                        $getcurrent_record = Tracktime::where('user_id', Auth::user()->id)->where('is_active', 1)->first();
+                        $getcurrent_record->update([
+                            'clockout' => Carbon::now()->tz($timezone->time_zone)->format('H:i:s'), 
+                            'is_active' => 0
+                        ]);
+                       
                         
                         $startTime = Carbon::parse($getcurrent_record->clockin);
-                        $endTime = Carbon::parse(Carbon::now()->tz($timezone->time_zone));
+                        $endTime = Carbon::parse($getcurrent_record->clockout);
                         if ($endTime->lt($startTime)) {
                             $endTime->addDay(); // Add 24 hours to the end time
                         }
+                       
+                        $totalhours = $startTime->diffInHours($endTime);
                         $getcurrent_record->update([
-                            'clockout' => Carbon::now()->tz($timezone->time_zone)->format('H:i'),
-                            'totalhours' => Carbon::parse($getcurrent_record->clockin)->diffInHours(Carbon::now()->tz('America/Edmonton')->format('H:i')),
-                            'is_active' => 0
+                            'totalhours' => $totalhours,
                         ]);
                         $get_current_user = User::where('id', Auth::user()->id);
                         $get_current_user->update(['is_on' => true]);
@@ -198,13 +203,14 @@ class TracktimeResource extends Resource
                     // ->label('Calculate')
                     // ->action(function (array $data, Model $record) {
                        
+                    //     // $startTime = Carbon::parse($record->clockin);
+                    //     // $endTime = Carbon::parse($record->clockout);
+                    //     // if ($endTime->lt($startTime)) {
+                    //     //     $endTime->addDay(); // Add 24 hours to the end time
+                    //     // }
+                    //     // $totalhours = $startTime->diffInHours($endTime);
+                      
                        
-                    //     // $totalhours = $starttime->diffInHours($endtime);
-                    //     // dd($totalhours);
-                       
-                    //     // $record->update([
-                    //     //     'totalhours' => $startTime->diffInHours($endTime),
-                    //     // ]);
 
                         
                     //      }),
