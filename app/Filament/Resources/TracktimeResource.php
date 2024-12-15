@@ -18,6 +18,7 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Columns\Layout\Split;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TracktimeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -58,6 +59,7 @@ class TracktimeResource extends Resource
         return $table
         ->query(Tracktime::query()->where('user_id', Auth::user()->id))
             ->columns([
+                Split::make([
                 Tables\Columns\TextColumn::make('clockin')
                 ->label('Clock In')
                 ->sortable()
@@ -93,7 +95,8 @@ class TracktimeResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ])->from('sm')
             ])
             ->headerActions([
                 Action::make('ClockIn')
