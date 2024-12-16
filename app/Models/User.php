@@ -50,14 +50,21 @@ class User extends Authenticatable implements FilamentUser
     }
     public function canAccessPanel(Panel $panel): bool
     {
-        $use_role  = Auth::user()->hasRole('super_admin');
+        $user_role  = Auth::user()->hasRole('super_admin');
         $user_ip  = Auth::user()->userip;
         $current_ip = request()->Ip();
-        if($user_ip == $current_ip){
+
+        if(!$user_role){
+            if($user_ip == $current_ip)
+            {
             return true;
+            }else {
+                return false;
+            }
         }else {
-            return false;
+            return true;
         }
+       
         
        
        
