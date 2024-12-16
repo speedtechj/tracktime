@@ -13,16 +13,25 @@ class TotalHours extends BaseWidget
     protected function getStats(): array
     {   
         $current_time = Tracktime::where('user_id', Auth::user()->id)->latest()->first();
-        // dd(Carbon::parse($current_time->clockout));
-        if($current_time->clockout == null){
+        if($current_time != null){
+            $currentin = Carbon::parse($current_time->clockin)->format('h:i a');
+            $currenttotal = $current_time->totalhours;
+            if($current_time->clockout == null){
                 $currentout = 'Ongoing';
         }else {
             $currentout = Carbon::parse($current_time->clockout)->format('h:i a');
         }
+        }else {
+            $currentin = 'No Clock In';
+            $currentout = 'No Clock Out';
+            $currenttotal = 'No Total';
+        }
+        
+        
         return [
-            Stat::make('Clock In',  Carbon::parse($current_time->clockin)->format('h:i a')),
+            Stat::make('Clock In',  $currentin),
             Stat::make('Clock Out', $currentout),
-            Stat::make('Total', $current_time->totalhours ?? 'Ongoing'),
+            Stat::make('Total', $currenttotal ?? 'On Going'),
         ];
     }
 }
