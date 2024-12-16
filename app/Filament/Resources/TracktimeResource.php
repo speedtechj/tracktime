@@ -74,8 +74,10 @@ class TracktimeResource extends Resource
                 ->formatStateUsing(function ($state) {
                     $clock_out = Carbon::parse($state);
                             return  $clock_out->format('h:i:s a');
+                    })
+                    ->default(function ($record){
+
                     }),
-                    // ->default('On Going'),
                 Tables\Columns\TextColumn::make('workdate')
                 ->label('Work Date')
                     ->date()

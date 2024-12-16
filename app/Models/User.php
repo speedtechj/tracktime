@@ -11,6 +11,7 @@ use phpDocumentor\Reflection\Location;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -60,6 +61,10 @@ class User extends Authenticatable implements FilamentUser
             return true;
             }else {
                 return false;
+                Notification::make()
+            ->title('Saved successfully')
+            ->success()
+            ->send();
             }
         }else {
             return true;

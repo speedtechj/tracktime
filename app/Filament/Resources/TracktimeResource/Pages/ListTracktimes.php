@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\TracktimeResource\Pages;
 
-use App\Filament\Resources\TracktimeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\TracktimeResource;
+use App\Filament\Resources\TracktimeResource\Widgets\TotalHours;
 
 class ListTracktimes extends ListRecords
 {
@@ -14,6 +15,12 @@ class ListTracktimes extends ListRecords
     {
         return [
             // Actions\CreateAction::make(),
+        ];
+    }
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            TotalHours::make(),
         ];
     }
 }
