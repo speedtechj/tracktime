@@ -199,10 +199,10 @@ class TracktimeResource extends Resource
             ->actions([
                 // Tables\Actions\EditAction::make()
                 // ->iconButton()
-                //     ->icon('heroicon-s-pencil'),
-                // Tables\Actions\DeleteAction::make()
-                // ->iconButton()
-                //     ->icon('heroicon-s-trash'),
+                //    ->icon('heroicon-s-pencil'),
+                Tables\Actions\DeleteAction::make()
+                ->iconButton()
+                    ->icon('heroicon-s-trash'),
                 
                     // Tables\Actions\Action::make('Calculate')
                     // ->label('Calculate')
